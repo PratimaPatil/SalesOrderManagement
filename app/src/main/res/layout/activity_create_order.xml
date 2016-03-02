@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.gls.som.CreateOrderActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:id="@+id/relativeLayout">
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="20sp"
+            android:layout_marginLeft="50dp"
+            android:hint="Enter item name"
+            android:textColorHint="@color/white"
+            android:id="@+id/selectitemautocomplete"/>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:id="@+id/backpressbtn"
+            android:onClick="backpress"
+            android:src="@drawable/arrow_left"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:id="@+id/closesearchString"
+            android:onClick="closeSearch"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/close_circle_white"/>
+
+
+
+    </RelativeLayout>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/relativeLayout"
+       android:id="@+id/ll_header"
+       android:padding="5dp"
+       android:orientation="vertical">
+       <include layout="@layout/added_item_layout"></include>
+       <ScrollView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/ll_header"
+           android:layout_marginTop="10dp"
+           android:id="@+id/ll_item_added_layout"
+           android:orientation="vertical">
+       </LinearLayout>
+       </ScrollView>
+   </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnsaveOrder"
+        android:text="Save"
+        android:onClick="saveOrder"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        />
+
+
+</RelativeLayout>
