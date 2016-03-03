@@ -3,7 +3,9 @@ package com.gls.som;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,12 +18,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.gls.som.Order.OrderData;
 import com.gls.som.item.ItemBean;
 import com.gls.som.item.ItemResponse;
 import com.gls.som.database.ItemHelper;
+import com.gls.som.utils.AppData;
 import com.gls.som.utils.CallFor;
 import com.gls.som.utils.GetData;
 import com.gls.som.utils.PostData;
@@ -44,6 +48,7 @@ public class CreateOrderActivity extends BaseActivity {
     LinearLayout ll_item_added_layout;
     String retailer_code;
     ArrayList<ItemBean> orderedItemList = new ArrayList<>();
+    RelativeLayout rl_mainLayout;
 
 
     @Override
@@ -53,6 +58,7 @@ public class CreateOrderActivity extends BaseActivity {
         setContentView(R.layout.activity_create_order);
         selectitemautocomplete = (AutoCompleteTextView) findViewById(R.id.selectitemautocomplete);
         ll_item_added_layout = (LinearLayout) findViewById(R.id.ll_item_added_layout);
+        rl_mainLayout= (RelativeLayout) findViewById(R.id.rl_mainLayout);
         ItemHelper db = new ItemHelper(getApplicationContext());
         int count = db.numberOfRows(ItemHelper.ITEMS_TB_NAME);
         db.close();
@@ -97,13 +103,26 @@ public class CreateOrderActivity extends BaseActivity {
                 json = new JSONObject(result);
                 String status, message;
                 status = (String) json.get("status");
+                message = (String) json.get("message");
                 if (json != null) {
                     if (status.equalsIgnoreCase("success")) {
-                        message = (String) json.get("message");
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    }else
+                    {
+                        Snackbar snackbar = Snackbar
+                                .make(rl_mainLayout, message, Snackbar.LENGTH_LONG);
+                        View sbView = snackbar.getView();
+                        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                        textView.setTextColor(Color.RED);
+                        snackbar.show();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Server is not responding", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar
+                            .make(rl_mainLayout, "Server is not responding", Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.RED);
+                    snackbar.show();
                 }
 
             } catch (JSONException e) {
@@ -119,7 +138,9 @@ public class CreateOrderActivity extends BaseActivity {
                 itemBeans.addAll(itemResponse.getListOfItem());
                 Log.e("item bean size", itemBeans.size() + "");
                 saveItemsInItemTable(itemResponse);
-                if (itemResponse.getListOfItem().size() == 50) {
+                String pagesize= AppData.getPageSize(context);
+                int pageSize=Integer.parseInt(pagesize);
+                if (itemResponse.getListOfItem().size() == pageSize) {
                     loadItems();
                     Log.e("enter item", "item");
                 }
@@ -234,6 +255,7 @@ public class CreateOrderActivity extends BaseActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectitemautocomplete.setTag("");
                 dialog.dismiss();
             }
         });
@@ -388,10 +410,21 @@ public class CreateOrderActivity extends BaseActivity {
     }
 
     public void saveOrder(View view) {
-        OrderData orderBean = new OrderData();
-        orderBean.setRetail_code(retailer_code);
-        orderBean.setOrderDetail(orderedItemList);
-        new PostData(new Gson().toJson(orderBean), this, CallFor.SAVEORDER).execute();
+        if (orderedItemList.size()!=0) {
+            OrderData orderBean = new OrderData();
+            orderBean.setRetail_code(retailer_code);
+            orderBean.setOrderDetail(orderedItemList);
+
+            new PostData(new Gson().toJson(orderBean), this, CallFor.SAVEORDER).execute();
+        }else
+        {
+            Snackbar snackbar = Snackbar
+                    .make(rl_mainLayout, "Please add items to order", Snackbar.LENGTH_LONG);
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
+        }
     }
 
 

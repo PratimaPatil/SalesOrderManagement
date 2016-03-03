@@ -1,10 +1,14 @@
 package com.gls.som.utils;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.gls.som.BaseActivity;
+import com.gls.som.LoginActivity;
+import com.gls.som.login.SessionBean;
+import com.google.gson.Gson;
 
 
 /**
@@ -56,10 +60,30 @@ public class PostData extends AsyncTask {
         return null;
     }
 
+    public void gotoLogin()
+    {
+        Intent login=new Intent(activity ,LoginActivity.class);
+        login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(login);
+    }
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
         progressDialog.dismiss();
-        activity.onGetResponse(result,callFor);
+        try
+        {
+            SessionBean sessionBean=new Gson().fromJson(result,SessionBean.class);
+            if (sessionBean.getStatus().equalsIgnoreCase("SESSIONEXPIRED"))
+            {
+                gotoLogin();
+            }else
+            {
+                activity.onGetResponse(result,callFor);
+            }
+
+        }catch (Exception e)
+        {
+            gotoLogin();
+        }
     }
 }

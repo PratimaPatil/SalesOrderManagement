@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.gls.som.item.ItemBean;
+import com.gls.som.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  */
 public class ItemHelper extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION =1;
+    public static final int DATABASE_VERSION = Constants.DB_VERSION;
     public static final String DATABASE_NAME = "items.db";
     public static final String ITEMS_TB_NAME = "items";
     public static final String BARCODE = "barcode";

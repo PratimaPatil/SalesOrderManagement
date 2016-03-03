@@ -1,11 +1,15 @@
 package com.gls.som;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.gls.som.route.RouteAdapter;
 import com.gls.som.route.RouteResponse;
@@ -16,6 +20,8 @@ import com.google.gson.Gson;
 public class RouteActivity extends BaseActivity {
     ListView routelistview;
     RouteResponse routeResponse=new RouteResponse();
+    CoordinatorLayout main_Layout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,7 @@ public class RouteActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         routelistview = (ListView) findViewById(R.id.routelist);
+        main_Layout= (CoordinatorLayout) findViewById(R.id.main_Layout);
         new GetData(this, CallFor.SHOWROUTE,"").execute();
 
 
@@ -51,10 +58,23 @@ public class RouteActivity extends BaseActivity {
                     Log.e("status", routeResponse.getStatus());
                     RouteAdapter routeAdapter = new RouteAdapter(this, routeResponse.getListofRoute());
                     routelistview.setAdapter(routeAdapter);
+                }else
+                {
+                    Snackbar snackbar = Snackbar
+                            .make(main_Layout, routeResponse.getMessage(), Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.RED);
+                    snackbar.show();
                 }
             }else
             {
-                Toast.makeText(getApplicationContext(),"Server is not responding",Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar
+                        .make(main_Layout, "Server is not responding", Snackbar.LENGTH_LONG);
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.RED);
+                snackbar.show();
             }
 
         }

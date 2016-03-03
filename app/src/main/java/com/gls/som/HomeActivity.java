@@ -3,6 +3,7 @@ package com.gls.som;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
@@ -11,17 +12,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gls.som.utils.AppData;
 import com.gls.som.utils.CallFor;
 import com.gls.som.utils.GetData;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class HomeActivity extends BaseActivity {
     Context context;
+    LinearLayout ll_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         context=HomeActivity.this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ll_home= (LinearLayout) findViewById(R.id.ll_home);
         setSupportActionBar(toolbar);
     }
 
@@ -82,12 +83,24 @@ public class HomeActivity extends BaseActivity {
                         startActivity(showRouteActivity);
 
                     } else {
+                        Snackbar snackbar = Snackbar
+                                .make(ll_home, "Something went wrong", Snackbar.LENGTH_LONG);
+                        View sbView = snackbar.getView();
+                        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                        textView.setTextColor(Color.RED);
 
+                        snackbar.show();
                     }
                 }
             }else
             {
-                Toast.makeText(getApplicationContext(),"Server is not responding",Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar
+                        .make(ll_home, "Server is not responding", Snackbar.LENGTH_LONG);
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.RED);
+
+                snackbar.show();
             }
 
         }

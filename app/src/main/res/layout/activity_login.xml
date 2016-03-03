@@ -10,20 +10,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.gls.som.LoginActivity"
-    android:gravity="center_horizontal|center_vertical"
+    android:id="@+id/rlmainLayout"
+    android:gravity="center_horizontal|center_vertical|center"
     tools:showIn="@layout/activity_login">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:foregroundGravity="center"
-        android:src="@drawable/launchicon"
-        android:id="@+id/logo"/>
-
-    <!--<android.support.design.widget.TextInputLayout-->
-        <!--android:id="@+id/input_layout_username"-->
-        <!--android:layout_below="@+id/logo"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:foregroundGravity="center"
+            android:src="@drawable/launchicon"
+            android:id="@+id/logo"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -32,14 +27,6 @@
             android:singleLine="true"
             android:layout_below="@+id/logo"
             android:hint="User Name" />
-
-    <!--</android.support.design.widget.TextInputLayout>-->
-
-    <!--<android.support.design.widget.TextInputLayout-->
-        <!--android:id="@+id/input_layout_password"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_below="@id/input_layout_username"-->
-        <!--android:layout_height="wrap_content">-->
 
         <EditText
             android:layout_width="match_parent"
@@ -50,14 +37,11 @@
             android:id="@+id/password"
             android:hint="Password" />
 
-    <!--</android.support.design.widget.TextInputLayout>-->
-
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/password"
-        android:id="@+id/btnlogin"
-        android:onClick="Login"
-        android:text="Submit"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/password"
+            android:id="@+id/btnlogin"
+            android:onClick="Login"
+            android:text="Submit"/>
 </RelativeLayout>

@@ -53,5 +53,45 @@ public class AppData {
         }
     }
 
+    public static void setUserName(Context context,String username)
+    {
+        SharedPreferences sp = context.getSharedPreferences(Constants.SP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Constants.USERNAME,username);
+        editor.commit();
+    }
+
+    public static String getUserName(Context context)
+    {
+        SharedPreferences sp = context.getSharedPreferences(Constants.SP, Context.MODE_PRIVATE);
+        String pageno= sp.getString(Constants.USERNAME, "");
+        if (pageno.equalsIgnoreCase(""))
+        {
+            return  null;
+        }else
+        {
+            return pageno;
+        }
+    }
+    public static void setPassword(Context context,String password)
+    {
+        SharedPreferences sp = context.getSharedPreferences(Constants.SP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Constants.PASSWORD,password);
+        editor.commit();
+    }
+
+    public static String getPassword(Context context)
+    {
+        SharedPreferences sp = context.getSharedPreferences(Constants.SP, Context.MODE_PRIVATE);
+        String pageno= sp.getString(Constants.PASSWORD, "");
+        if (pageno.equalsIgnoreCase(""))
+        {
+            return  null;
+        }else
+        {
+            return pageno;
+        }
+    }
 
 }
