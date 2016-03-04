@@ -1,30 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:id="@+id/ll_home"
-    android:orientation="vertical"
-    tools:context=".HomeActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.gls.som.HomeActivity"
+android:id="@+id/ll_home">
 
-    <android.support.design.widget.AppBarLayout
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@color/colorAccent"
+    android:textSize="30sp"
+    android:id="@+id/txtTitle"
+    android:text="@string/login_title"
+    android:padding="15dp"
+    android:textColor="@color/white"
+    android:textStyle="bold"
+    android:gravity="center_horizontal"/>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_marginTop="70dp"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
-        <include layout="@layout/content_home"
-
-            ></include>
-
-</LinearLayout>
+        android:background="@drawable/logindrawble"
+        android:layout_below="@+id/txtTitle"
+        android:orientation="vertical"
+        android:padding="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/createorder"
+                android:clickable="true"
+                android:onClick="gotoCreateOrder"
+                android:gravity="left|center_vertical"
+                android:textSize="25sp"
+                android:textColor="@color/colorAccent"
+                android:padding="20dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorAccent"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:clickable="true"
+                android:textColor="@color/colorAccent"
+                android:gravity="left|center_vertical"
+                android:text="@string/editorder"
+                android:padding="20dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorAccent"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textColor="@color/colorAccent"
+                android:clickable="true"
+                android:text="@string/addretailer"
+                android:gravity="left|center_vertical"
+                android:padding="20dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

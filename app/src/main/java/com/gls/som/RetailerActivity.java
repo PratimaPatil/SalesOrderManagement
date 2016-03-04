@@ -32,7 +32,7 @@ public class RetailerActivity extends BaseActivity {
     LinearLayout retailerContainer;
     Context context;
     EditText searchRetailer;
-    ArrayList<LinearLayout> retailerViewList=new ArrayList<>();
+    ArrayList<RelativeLayout> retailerViewList=new ArrayList<>();
     int pageNo=0;
 
     @Override
@@ -132,7 +132,7 @@ public class RetailerActivity extends BaseActivity {
         for (int i=0;i<retailerBean.size();i++) {
             try {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final LinearLayout ll_retailer = (LinearLayout) inflater.inflate(R.layout.retailer_view, null);
+                final RelativeLayout ll_retailer = (RelativeLayout) inflater.inflate(R.layout.retailer_view, null);
                 TextView retailerName,retailerArea;
                 ll_retailer.setTag(retailerBean.get(i));
                 retailerName= (TextView) ll_retailer.findViewById(R.id.retailerName);
@@ -150,8 +150,13 @@ public class RetailerActivity extends BaseActivity {
                         Log.e("retailer id",retailerBean1.getRetailer_id()+"");
                         Log.e("retaier name",retailerBean1.getRetailer_name()+"");
                         String retailerid=retailerBean1.getRetailer_id()+"";
+                        String retailername=retailerBean1.getRetailer_name()+"";
+                        String retailerarea=retailerBean1.getRetailer_area()+"";
+
                         Intent createOrderActivity=new Intent(RetailerActivity.this,CreateOrderActivity.class);
                         createOrderActivity.putExtra("retailerCode",retailerid);
+                        createOrderActivity.putExtra("retailerName",retailername);
+                        createOrderActivity.putExtra("retailerArea",retailerarea);
                         startActivity(createOrderActivity);
                     }
                 });
@@ -181,7 +186,7 @@ public class RetailerActivity extends BaseActivity {
             searchString=searchRetailer.getText()+"";
             Log.e("text",searchString);
                 for (int j = 0; j < retailerViewList.size(); j++) {
-                    LinearLayout retailerLayout=retailerViewList.get(j);
+                    RelativeLayout retailerLayout=retailerViewList.get(j);
                     RetailerBean retailerBean1= (RetailerBean) retailerLayout.getTag();
                     if (retailerBean1.getRetailer_name().toUpperCase().contains(searchString.toUpperCase())) {
                         retailerLayout.setVisibility(View.VISIBLE);

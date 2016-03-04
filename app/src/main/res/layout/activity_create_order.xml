@@ -7,51 +7,58 @@
     android:fitsSystemWindows="true"
     android:id="@+id/rl_mainLayout"
     tools:context="com.gls.som.CreateOrderActivity">
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:id="@+id/relativeLayout">
-        <AutoCompleteTextView
+        android:layout_height="150dp"
+        android:background="@color/colorAccent"
+        android:orientation="vertical"
+        android:id="@+id/relativeLayout2">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textSize="20sp"
-            android:layout_marginLeft="50dp"
-            android:hint="Enter item name"
-            android:textColorHint="@color/white"
-            android:id="@+id/selectitemautocomplete"/>
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:id="@+id/backpressbtn"
-            android:onClick="backpress"
-            android:src="@drawable/arrow_left"/>
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:id="@+id/closesearchString"
-            android:onClick="closeSearch"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/close_circle_white"/>
-
-
-
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:background="@drawable/search_conteiner"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp">
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="20sp"
+                android:hint="Enter item name"
+                android:paddingLeft="15dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginLeft="20dp"
+                android:textColorHint="@color/white"
+                android:id="@+id/selectitemautocomplete"
+                android:background="#00000000"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:id="@+id/closesearchString"
+                android:onClick="closeSearch"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/close_circle_white"/>
+        </RelativeLayout>
+        <include layout="@layout/order_table_header"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
+
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_below="@+id/relativeLayout"
        android:id="@+id/ll_header"
        android:padding="5dp"
-       android:orientation="vertical">
-       <include layout="@layout/added_item_layout"></include>
+       android:orientation="vertical"
+       android:layout_above="@+id/btnsaveOrder"
+       android:layout_below="@+id/relativeLayout2">
+
        <ScrollView
            android:layout_width="match_parent"
-           android:layout_height="wrap_content">
+           android:layout_height="match_parent">
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
@@ -64,16 +71,78 @@
 
 
    </LinearLayout>
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnsaveOrder"
-        android:text="Save"
-        android:onClick="saveOrder"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         android:layout_alignParentBottom="true"
-        />
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:layout_weight="1"
+                android:id="@+id/retailerName"
+                android:textColor="@color/white"
+                android:text="Retailer name"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:gravity="right"
+                android:text="Grand Total:"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:textColor="@color/white"
+                android:gravity="right"
+                android:id="@+id/grandTototal"
+                android:layout_weight="1"
+                android:text="0"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:id="@+id/retailerArea"
+                android:text="Retailer Area"/>
+            <Button
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnsaveOrder"
+                android:text="Save"
+                android:layout_weight="1"
+                android:onClick="saveOrder"
+                android:textColor="@color/white"
+                android:layout_gravity="end"
+                android:textSize="22sp"
+
+                android:background="@color/colorAccent"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
 
 </RelativeLayout>

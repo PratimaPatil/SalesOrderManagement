@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="5dp"
-    android:padding="5dp">
+    android:layout_height="match_parent">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/retailerName"
-        android:textSize="16sp"
-        android:text="Retailer name"/>
+        android:textSize="20sp"
+        android:text="Retailer name"
+        android:padding="13dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/retailerArea"
-        android:textSize="16sp"
-        android:text="Retailer area"/>
-</LinearLayout>
+        android:textSize="20sp"
+        android:text="Retailer area"
+        android:gravity="end"
+        android:padding="13dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/retailerName"
+        android:background="@color/colorAccent"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

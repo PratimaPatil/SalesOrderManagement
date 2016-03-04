@@ -3,6 +3,7 @@ package com.gls.som;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -42,11 +43,11 @@ public class CreateOrderActivity extends BaseActivity {
     ItemResponse itemResponse;
     ArrayList<ItemBean> itemBeans = new ArrayList<>();
     Context context;
-    TextView total_amt_of_item, txtitemrate;
+    TextView total_amt_of_item, txtitemrate,retailerName,grandTototal,retailerArea;
     EditText qtyofitem;
     ArrayAdapter itemAdapter;
     LinearLayout ll_item_added_layout;
-    String retailer_code;
+    String retailer_code,retailer_name,retailer_area;
     ArrayList<ItemBean> orderedItemList = new ArrayList<>();
     RelativeLayout rl_mainLayout;
 
@@ -59,11 +60,18 @@ public class CreateOrderActivity extends BaseActivity {
         selectitemautocomplete = (AutoCompleteTextView) findViewById(R.id.selectitemautocomplete);
         ll_item_added_layout = (LinearLayout) findViewById(R.id.ll_item_added_layout);
         rl_mainLayout= (RelativeLayout) findViewById(R.id.rl_mainLayout);
+        retailerName= (TextView) findViewById(R.id.retailerName);
+        grandTototal= (TextView) findViewById(R.id.grandTototal);
+        retailerArea= (TextView) findViewById(R.id.retailerArea);
         ItemHelper db = new ItemHelper(getApplicationContext());
         int count = db.numberOfRows(ItemHelper.ITEMS_TB_NAME);
         db.close();
         if (getIntent().getStringExtra("retailerCode") != null) {
             retailer_code = getIntent().getStringExtra("retailerCode");
+            retailer_name = getIntent().getStringExtra("retailerName");
+            retailer_area = getIntent().getStringExtra("retailerArea");
+            retailerName.setText(retailer_name);
+            retailerArea.setText(retailer_area);
             Log.e("retaile_code", retailer_code);
         }
         itemAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.item_row, itemBeans);
@@ -106,7 +114,12 @@ public class CreateOrderActivity extends BaseActivity {
                 message = (String) json.get("message");
                 if (json != null) {
                     if (status.equalsIgnoreCase("success")) {
+                        retailerArea.setText(retailer_area);
+                        retailerName.setText(retailer_name);
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        Intent home=new Intent(CreateOrderActivity.this,HomeActivity.class);
+                        home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(home);
                     }else
                     {
                         Snackbar snackbar = Snackbar
@@ -158,7 +171,17 @@ public class CreateOrderActivity extends BaseActivity {
         }
         return index;
     }
-
+    public BigDecimal calculateGrandTotal(ArrayList<ItemBean> orderedListItems)
+    {
+       BigDecimal grandTotal=new BigDecimal("0.0");
+        for (int i=0;i<orderedListItems.size();i++)
+        {
+            BigDecimal rate=new BigDecimal(orderedListItems.get(i).getItem_rate());
+            BigDecimal quantity=new BigDecimal(orderedListItems.get(i).getQuantity());
+            grandTotal=grandTotal.add((rate.multiply(quantity)));
+        }
+        return  grandTotal;
+    }
     private void findItemFromList(final int indexInOrder, ArrayList<ItemBean> itemBeans,String compareString) {
 
         //final int indexInOrder = findItemInOrder(compareString);
@@ -243,6 +266,7 @@ public class CreateOrderActivity extends BaseActivity {
 
                         Log.e("size of orderd list", orderedItemList.size() + "");
                         Log.e("quantity", itemBean.getQuantity() + "");
+
                         dialog.dismiss();
                     } else {
                         Toast.makeText(getApplicationContext(), "Please enter quantity", Toast.LENGTH_SHORT).show();
@@ -279,22 +303,25 @@ public class CreateOrderActivity extends BaseActivity {
         selectitemautocomplete.setText("");
         ll_item_added_layout.removeAllViews();
         for (int i = 0; i < orderedItemList.size(); i++) {
-            View to_add_item = getLayoutInflater().inflate(R.layout.added_item_layout, null);
+            View to_add_item = getLayoutInflater().inflate(R.layout.oreder_item_row, null);
             to_add_item.setTag(orderedItemList.get(i));
             TextView txt_item_name = (TextView) to_add_item.findViewById(R.id.txt_item_name);
             TextView txt_item_mrp = (TextView) to_add_item.findViewById(R.id.txt_item_mrp);
             TextView txt_item_rate = (TextView) to_add_item.findViewById(R.id.txt_item_rate);
             TextView txt_item_total = (TextView) to_add_item.findViewById(R.id.txt_item_total);
-            ImageView deleteItem= (ImageView) to_add_item.findViewById(R.id.deleteItem);
+            TextView txt_item_qty = (TextView) to_add_item.findViewById(R.id.txt_item_qty);
+            LinearLayout deleteItem= (LinearLayout) to_add_item.findViewById(R.id.deleteItem);
+            txt_item_qty.setTag(orderedItemList.get(i));
             deleteItem.setTag(orderedItemList.get(i));
             txt_item_name.setText(orderedItemList.get(i).getItem_name());
             txt_item_mrp.setText(orderedItemList.get(i).getItem_mrp() + "");
             txt_item_rate.setText(orderedItemList.get(i).getItem_rate() + "");
-            txt_item_total.setText(calculateTotal(orderedItemList.get(i).getQuantity()) + "");
+            txt_item_qty.setText(orderedItemList.get(i).getQuantity()+"");
+            txt_item_total.setText(calculateTotal(orderedItemList.get(i).getQuantity(),orderedItemList.get(i).getItem_rate()) + "");
             Log.e("qunt to set", orderedItemList.get(i).getQuantity() + "");
             ll_item_added_layout.addView(to_add_item);
 
-            to_add_item.setOnClickListener(new View.OnClickListener() {
+            txt_item_qty.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ItemBean clickItem = (ItemBean) v.getTag();
@@ -330,6 +357,7 @@ public class CreateOrderActivity extends BaseActivity {
                 }
             });
         }
+        grandTototal.setText(round(calculateGrandTotal(orderedItemList)+""));
     }
 
     TextWatcher calculateTotalTextWatcher = new TextWatcher() {
@@ -348,26 +376,26 @@ public class CreateOrderActivity extends BaseActivity {
         @Override
         public void afterTextChanged(final Editable editable) {
             int qty = 0;
+            double rate=0.0;
             final String str = editable.toString().trim();
+            rate=Double.parseDouble(txtitemrate.getText().toString());
             if (!str.equalsIgnoreCase("")) {
                 qty = Integer.parseInt(str);
             }
             if (qty > 0) {
-                total_amt_of_item.setText(calculateTotal(qty) + "");
+                total_amt_of_item.setText(calculateTotal(qty,rate) + "");
             } else if (qty == 0) {
-                total_amt_of_item.setText(calculateTotal(qty) + "");
+                total_amt_of_item.setText(calculateTotal(qty,rate) + "");
             }
         }
     };
 
-    private BigDecimal calculateTotal(int quantity) {
-        BigDecimal qtyOfItem = new BigDecimal("0.0");
-        BigDecimal rateOfItem = new BigDecimal("0.0");
+    private BigDecimal calculateTotal(int quantity,double rate) {
         BigDecimal totalOfItem = new BigDecimal("0.0");
-        String rate = "";
-        rate = txtitemrate.getText() + "";
-        qtyOfItem = new BigDecimal(quantity);
-        rateOfItem = new BigDecimal(rate);
+        String rate1 = "";
+        rate1 = rate + "";
+        BigDecimal qtyOfItem = new BigDecimal(quantity);
+        BigDecimal rateOfItem = new BigDecimal(rate1);
         totalOfItem = qtyOfItem.multiply(rateOfItem);
         return totalOfItem;
     }
@@ -427,6 +455,25 @@ public class CreateOrderActivity extends BaseActivity {
         }
     }
 
-
+    public static String round(String amount)
+    {
+        String str= amount;
+        try{
+            double amt=Double.parseDouble(amount);
+            int rounded = (int)amt;
+            if(amt == rounded){
+                str = rounded+"";
+                Log.e("str1",str);
+            } else {
+                str = String.format("%.2f",amt);
+                Log.e("str2",str);
+            }
+        }
+        catch (Exception e){
+            str = amount;
+            Log.e("str3",e+"");
+        }
+        return  str;
+    }
 
 }

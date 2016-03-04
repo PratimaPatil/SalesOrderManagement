@@ -21,4 +21,5 @@
     <string name="title_activity_show_route">ShowRouteActivity</string>
     <string name="title_activity_home1">HomeActivity1</string>
     <string name="title_activity_retailer">RetailerActivity</string>
+    <string name="login_title">GLS-SOM</string>
 </resources>

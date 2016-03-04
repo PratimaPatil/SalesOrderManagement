@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gls.som.route.RouteAdapter;
@@ -20,18 +21,15 @@ import com.google.gson.Gson;
 public class RouteActivity extends BaseActivity {
     ListView routelistview;
     RouteResponse routeResponse=new RouteResponse();
-    CoordinatorLayout main_Layout;
+    RelativeLayout main_Layout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_route);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         routelistview = (ListView) findViewById(R.id.routelist);
-        main_Layout= (CoordinatorLayout) findViewById(R.id.main_Layout);
+        main_Layout= (RelativeLayout) findViewById(R.id.main_Layout);
         new GetData(this, CallFor.SHOWROUTE,"").execute();
 
 

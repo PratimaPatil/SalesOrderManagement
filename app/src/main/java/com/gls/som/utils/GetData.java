@@ -53,6 +53,7 @@ public class GetData extends AsyncTask {
     @Override
     protected void onPreExecute() {
         progressDialog = ProgressDialog.show(activity,"","Loading...");
+        progressDialog.setCancelable(false);
     }
 
     @Override

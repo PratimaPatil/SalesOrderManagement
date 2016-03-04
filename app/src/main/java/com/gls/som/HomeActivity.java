@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gls.som.utils.AppData;
@@ -21,16 +22,26 @@ import org.json.JSONObject;
 
 public class HomeActivity extends BaseActivity {
     Context context;
-    LinearLayout ll_home;
+    RelativeLayout ll_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+      try {
+          String code = getIntent().getStringExtra("EXIT");
+          if(code.equals("yes")){
+              Log.e("finish activity","");
+              this.finish();
+              return;
+          }
+      }catch (Exception e)
+      {}
+
+
+
         setContentView(R.layout.activity_home);
         context=HomeActivity.this;
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ll_home= (LinearLayout) findViewById(R.id.ll_home);
-        setSupportActionBar(toolbar);
+        ll_home= (RelativeLayout) findViewById(R.id.ll_home);
     }
 
     @Override
@@ -47,10 +58,11 @@ public class HomeActivity extends BaseActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.e("exit", "app EXIT");
                 dialogInterface.dismiss();
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+
+                Intent exitApp = new Intent(getApplicationContext(), HomeActivity.class);
+                exitApp.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                exitApp.putExtra("EXIT", "yes");
+                startActivity(exitApp);
             }
         });
         alert.show();

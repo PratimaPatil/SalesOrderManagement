@@ -1,54 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:id="@+id/rlretailer"
-    tools:context="com.gls.som.RetailerActivity">
-    <RelativeLayout
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:id="@+id/rlretailer"
+tools:context="com.gls.som.RetailerActivity">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:id="@+id/relativeLayout">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="50dp"
-            android:id="@+id/searchRetailer"
-            android:layout_marginRight="50dp"/>
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_margin="5dp"
-            android:id="@+id/backpressbtn"
-            android:onClick="backpress"
-            android:src="@drawable/arrow_left"/>
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_margin="5dp"
-            android:id="@+id/closesearchString"
-            android:onClick="closeSearch"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/close_circle_white"/>
-
-    </RelativeLayout>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/relativeLayout">
-        <LinearLayout
+        android:layout_height="160dp"
+        android:background="@color/colorAccent"
+        android:textSize="30sp"
+        android:id="@+id/txtTitle"
+        android:text="Choose todays route"
+        android:padding="20dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:gravity="center_horizontal">
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout"
+            android:background="@drawable/search_conteiner"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/searchRetailer"
+                android:layout_marginRight="60dp"
+                android:hint="filter..."
+                android:textColorHint="@color/colorAccentLight"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:background="#00000000"
+                android:cursorVisible="true"/>
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/closesearchString"
+                android:onClick="closeSearch"
+                android:layout_marginRight="8dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/close_circle_white"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="90dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingBottom="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/logindrawble"
+            android:layout_below="@+id/txtTitle"
             android:orientation="vertical"
-            android:id="@+id/retailerContainer"></LinearLayout>
+            android:padding="10dp">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/relativeLayout">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/retailerContainer">
 
-    </ScrollView>
-
-
-
-
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
+
